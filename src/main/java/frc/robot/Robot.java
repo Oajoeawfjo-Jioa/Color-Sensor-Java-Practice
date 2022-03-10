@@ -12,6 +12,9 @@ import frc.robot.subsystems.ColorSensorSubsystem;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.commands.Forward;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
   public static ColorSensorSubsystem colorsensor = new ColorSensorSubsystem();
-  private Color color;
+  public static IntakeSubsystem intake = new IntakeSubsystem();
   private Command m_autonomousCommand;
 
     // The robot's subsystems and commands are defined here...
@@ -57,13 +60,18 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-
-    color = colorsensor.getColor();
+  
+    Color color = colorsensor.getColor();
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("R", colorsensor.getColor().red);
-    SmartDashboard.putNumber("G", colorsensor.getColor().green);
-    SmartDashboard.putNumber("B", colorsensor.getColor().blue);
+    SmartDashboard.putNumber("R", color.red);
+    SmartDashboard.putNumber("G", color.green);
+    SmartDashboard.putNumber("B", color.blue);
+
+    if (colorsensor.AllianceMatch())
+      new Forward(0.75);
+    else
+      new Forward(-0.75);
 
   }
 
@@ -114,4 +122,5 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     
   }
+
 }

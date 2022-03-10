@@ -15,9 +15,11 @@ import edu.wpi.first.wpilibj.I2C;
  */
 public final class Constants {
 
-    public final class Color{
-        
+    public final class Intake{
+        public static final boolean INTAKE_INVERTED = false;
+        public static final int INTAKE_ID = 1;
 
     }
+
     
 }
